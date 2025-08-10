@@ -338,6 +338,23 @@ async function run() {
       }
     });
 
+    // for Dashboard layout api
+
+    app.get("/dashboard-information", async (req, res) => {
+      try {
+        const roomsCount = await roomsCollection.estimatedDocumentCount();
+        const bookingsCount = await bookingsCollection.estimatedDocumentCount();
+
+        res.status(200).send({
+          roomsCount,
+          bookingsCount,
+        });
+      } catch (error) {
+        console.error("Error fetching dashboard information:", error);
+        res.status(500).send({ message: "Server error" });
+      }
+    });
+
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
     // console.log(
@@ -353,5 +370,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(` HotelHub running on ${port}`);
+  console.log(` HotelHub running on  http://localhost:${port}`);
 });
